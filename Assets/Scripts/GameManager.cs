@@ -10,6 +10,24 @@ public class GameManager : MonoBehaviour
     private int leftScore = 0;
     private int rightScore = 0;
 
+    public int GetLeftScore()
+    {
+        return leftScore;
+    }
+
+    public int GetRightScore()
+    {
+        return rightScore;
+    }
+
+    // A new public function for the Client to be told the score
+    public void UpdateScoreText(int left, int right)
+    {
+        leftScore = left;
+        rightScore = right;
+        UpdateScoreText(); // Calls your original private method
+    }
+
     private void Start()
     {
         UpdateScoreText();

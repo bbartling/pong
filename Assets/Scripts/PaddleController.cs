@@ -3,9 +3,28 @@ using UnityEngine;
 public class PaddleController : MonoBehaviour
 {
     public float speed = 8f;
-    public KeyCode upKey = KeyCode.W;
-    public KeyCode downKey = KeyCode.S;
     public float moveLimit = 4f;
+
+    // We will set this in the Inspector
+    public bool isPlayerOne;
+
+    private KeyCode upKey;
+    private KeyCode downKey;
+
+    void Start()
+    {
+        // Assign keys based on player
+        if (isPlayerOne)
+        {
+            upKey = KeyCode.W;
+            downKey = KeyCode.S;
+        }
+        else
+        {
+            upKey = KeyCode.UpArrow;
+            downKey = KeyCode.DownArrow;
+        }
+    }
 
     void Update()
     {
