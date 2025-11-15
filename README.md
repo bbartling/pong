@@ -1,8 +1,13 @@
 # pong
 A Unity concept for learning 2-player game development: build a custom server on the internet that allows two Unity clients to play a game of Pong, using WebSockets to communicate data back and forth.
 
+Unity handles all gameplay simulation locally, including ball physics, paddle movement, collisions, scoring, and round resets. Scripts like `BallController.cs`, `PaddleController.cs`, `GameManager.cs`, and `GoalTrigger.cs` run entirely inside the Unity engine, meaning the game does not rely on the server for any physics or logic. One player is designated as the **Host**, and that machine becomes the authoritative source of truth for the match—it controls ball movement, simulates the left paddle, and tracks the current score. The other player, the **Client**, controls only the right paddle. The Host sends its full game state (ball position, paddle position, and score) over WebSockets, and the Client simply renders whatever the Host transmits, keeping the two players visually synchronized while ensuring that all physics remain consistent and authoritative.
+
+
 ---
 
+<details>
+<summary>📊 Unity Package Manager Notes</summary>
 
 ### Install Websockets support
 https://github.com/endel/NativeWebSocket
@@ -18,6 +23,16 @@ In package manager from git URL:
 * https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask
 
 
+</details>
+
+---
+
+
+<details>
+<summary>🐍 Python Websocket Server Notes</summary>
+
+* https://github.com/bbartling/bensUnityWebSocketServer
+
 ### Deployed on Render web app service
 * Wake up web service if it is sleeping by going to URL: https://bensunitywebsocketserver.onrender.com/
 
@@ -26,37 +41,7 @@ In package manager from git URL:
 
 ![Setup Snippet](https://raw.githubusercontent.com/bbartling/pong/develop/setup_snip.png)
 
-### Game Play
-![Game Snippet](https://github.com/bbartling/pong/blob/develop/game_snip.png)
-
-
----
-
-# 🚀 How the Game Works
-
-## 🎱 1. Unity Handles 100% of the Physics
-
-The ball physics, paddle movement, collision, scoring — all of that stays inside Unity.
-
-* `BallController.cs` moves the ball, applies velocity, collisions, plays sounds. 
-* `PaddleController.cs` handles W/S and ↑/↓ input. 
-* `GameManager.cs` keeps score and restarts rounds. 
-* `GoalTrigger.cs` detects when the ball passes a goal. 
-
-Only **one player acts as the “Host”**, meaning:
-
-* Host simulates ball physics
-* Host simulates left paddle
-* Client only moves the right paddle
-* Host publishes the *entire* game state to the server
-
-The client simply renders whatever game state the host sends.
-
----
-
-## 🌐 2. WebSockets Transfer State 30 Times Per Second
-
-Instead of sending physics calculations, the game only sends:
+Instead of sending physics calculations to crunch in Python, the game only sends this data below WebSockets Transfer State 30 Times Per Second:
 
 ### **What Host sends → Client**
 
@@ -83,8 +68,13 @@ Instead of sending physics calculations, the game only sends:
 }
 ```
 
+</details>
+
 ---
 
+![Game Snippet](https://github.com/bbartling/pong/blob/develop/game_snip.png)
+
+---
 
 ## 📜 License
 
