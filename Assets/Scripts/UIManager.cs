@@ -16,8 +16,11 @@ public class UIManager : MonoBehaviour
         // Add a listener to the button
         connectButton.onClick.AddListener(OnConnectClicked);
         // Set a default server URL for easy testing
-        serverURLInput.text = "ws://127.0.0.1:8000";
-        statusText.text = "Please enter server details."; // <-- NEW
+        serverURLInput.text = "wss://bensunitywebsocketserver.onrender.com";
+        roomInput.text = "pizza"; // <-- Set your default room
+        statusText.text = "Ready to join!"; // <-- Update the status
+
+
     }
 
     void OnConnectClicked()
